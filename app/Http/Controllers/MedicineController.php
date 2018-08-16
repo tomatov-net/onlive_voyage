@@ -43,7 +43,7 @@ class MedicineController extends Controller
     public function store(Request $request)
     {
         $all = $request->all();
-        if($request->file('image')){
+        if($request->image){
             $image = $this->saveImage($request->image);
             $all['image'] = '/'.$image;;
         }
