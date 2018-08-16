@@ -10,9 +10,11 @@ require('./bootstrap');
 import BootstrapVue from 'bootstrap-vue'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
-
-Vue.use(BootstrapVue);
+import VeeValidate from 'vee-validate';
 window.Vue = require('vue');
+
+Vue.use(VeeValidate);
+Vue.use(BootstrapVue);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -21,6 +23,8 @@ window.Vue = require('vue');
  */
 
 Vue.component('example-component', require('./components/ExampleComponent.vue'));
+Vue.component('v-form', require('./components/Form.vue'));
+Vue.component('v-buttons', require('./components/ActionButtons.vue'));
 
 const app = new Vue({
     el: '#app'

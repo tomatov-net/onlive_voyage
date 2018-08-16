@@ -2,43 +2,54 @@
 
 @section('content')
 <div class="container">
-    <div class="row justify-content-center">
+    <div class="row">
+        <div class="col-md-2">
+            <div class="form-group">
+                <a href="{{ route('medicines.create') }}" class="btn form-control btn-success">Создать</a>
+            </div>
+        </div>
         <div class="col-md-12">
             <div class="card">
                 <div class="card-header">Препараты</div>
 
                 <div class="card-body">
+
                     <table class="table table-striped">
                         <thead>
-                        <tr>
-                            <th>Название</th>
-                            <th>Краткое описание</th>
-                            <th>Фото</th>
-                            <th>Действия</th>
-                        </tr>
+                            <tr>
+                                <th>Название</th>
+                                <th>Описание</th>
+                                <th>Фото</th>
+                                <th>Производитель</th>
+                                <th>Категория</th>
+                                <th>Действия</th>
+                            </tr>
                         </thead>
                         <tbody>
-                        @foreach($rooms as $room)
-                            <tr>
-                                <td>{{ $room->name }}</td>
-                                <td>{{ $room->short_description }}</td>
-                                <td><img class="img img-thumbnail" src="{{ Storage::url($room->image) }}" alt=""></td>
-                                <td>
-                                    <a class="btn btn-success" href="{{ route('booking.get', ['id' => $room->id]) }}">Забронировать</a>
-                                    {{--<form method="post" action="{{ route('booking', ['id' => $room->id]) }}">--}}
-                                        {{--<div class="form-group">--}}
-                                            {{--<label for="">Дата заезда</label>--}}
-                                            {{--<input class="form-control" type="date" value="period_from">--}}
-                                        {{--</div>--}}
-                                        {{--<div class="form-group">--}}
-                                            {{--<label for="">Дата выезда</label>--}}
-                                            {{--<input class="form-control" type="date" value="period_to">--}}
-                                        {{--</div>--}}
-                                        {{--<button class="btn btn-success" type="submit" href="{{ route('admin.rooms.edit', ['id' => $room->id]) }}">Забронировать</button>--}}
-                                    {{--</form>--}}
-                                </td>
-                            </tr>
-                        @endforeach
+                            @forelse($medicines as $medicine)
+                                <tr>
+                                    <td>{{ $medicine->name }}</td>
+                                    <td>{{ $medicine->description }}</td>
+                                    <td><img class="img img-thumbnail" style="max-width: 30%" src="{{ $medicine->image ? $medicine->image : '' }}" alt=""></td>
+                                    <td>{{ $medicine->manufacturer->name }}</td>
+                                    <td>{{ $medicine->category->name }}</td>
+                                    <td>
+                                        <v-buttons
+                                            edit="{{ route('medicines.edit', ['id' => $medicine->id]) }}"
+                                            delete="{{ route('medicines.destroy', ['id' => $medicine->id]) }}"
+                                        ></v-buttons>
+                                    </td>
+                                </tr>
+                            @empty
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td>записей нет</td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                            @endforelse
 
                         </tbody>
                     </table>

@@ -15,6 +15,9 @@ class CreateMedicineCategoriesTable extends Migration
     {
         Schema::create('medicine_categories', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('name');
+            $table->text('description')->nullable();
+
             $table->timestamps();
         });
     }

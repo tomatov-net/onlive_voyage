@@ -15,7 +15,25 @@ class CreateMedicinesTable extends Migration
     {
         Schema::create('medicines', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name')->unique();
+            $table->string('name');
+
+            $table->unsignedInteger('category_id');
+            $table->foreign('category_id')
+                ->references('id')
+                ->on('medicine_categories')
+                ->onDelete('cascade');
+
+            $table->unsignedInteger('manufacturer_id');
+            $table->foreign('manufacturer_id')
+                ->references('id')
+                ->on('medicine_manufacturers')
+                ->onDelete('cascade');
+
+            $table->string('image')->nullable();
+
+            $table->text('description')->nullable();
+
+
 
             $table->timestamps();
         });

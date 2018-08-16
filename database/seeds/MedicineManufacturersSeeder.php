@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Seeder;
 
-class MadicineManufacturersSeeder extends Seeder
+class MedicineManufacturersSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -12,6 +12,5 @@ class MadicineManufacturersSeeder extends Seeder
     public function run()
     {
         factory(\App\MedicineManufacturer::class, 20)->create();
-
     }
 }
