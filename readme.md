@@ -13,3 +13,10 @@
 
 ## Настройка проекта:
 `php artisan migrate --seed`
+
+Доступ к `/medicine`:
+
+````
+admin@admin.com
+password
+````
