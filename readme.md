@@ -14,7 +14,7 @@
 ## Настройка проекта:
 `php artisan migrate --seed`
 
-Доступ к `/medicine`:
+Доступ к `/medicines`:
 
 ````
 admin@admin.com
