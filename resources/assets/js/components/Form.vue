@@ -160,7 +160,7 @@
                             })
                         }
                         else{
-                            axios.post('/test/medicines/'+this.id,
+                            axios.post('/api/medicines/'+this.id,
                                 formData,
                             )
                             .then(function (response) {

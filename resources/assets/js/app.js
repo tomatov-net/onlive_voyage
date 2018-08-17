@@ -26,6 +26,7 @@ Vue.component('example-component', require('./components/ExampleComponent.vue'))
 Vue.component('v-form', require('./components/Form.vue'));
 Vue.component('v-test-form', require('./components/TestForm.vue'));
 Vue.component('v-buttons', require('./components/ActionButtons.vue'));
+Vue.component('v-calc', require('./components/Calc.vue'));
 
 const app = new Vue({
     el: '#app'

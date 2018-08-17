@@ -13,6 +13,9 @@ use Illuminate\Http\Request;
 |
 */
 
+Route::post('medicines/{id}', 'MedicineController@update');
+Route::post('calculate', 'OperationController@calc');
+
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });

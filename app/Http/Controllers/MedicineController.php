@@ -140,7 +140,9 @@ class MedicineController extends Controller
      */
     public function destroy($id)
     {
-        $data = Medicine::find($id)->delete();
+        $data = Medicine::find($id);
+        Storage::disk('public')->delete($data->image);
+        $data->delete();
         return response()->json('ok');
     }
 }

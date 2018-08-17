@@ -20543,6 +20543,7 @@ Vue.component('example-component', __webpack_require__(223));
 Vue.component('v-form', __webpack_require__(74));
 Vue.component('v-test-form', __webpack_require__(238));
 Vue.component('v-buttons', __webpack_require__(231));
+Vue.component('v-calc', __webpack_require__(243));
 
 var app = new Vue({
   el: '#app'
@@ -72880,7 +72881,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                             return;
                         });
                     } else {
-                        axios.post('/test/medicines/' + _this2.id, formData).then(function (response) {
+                        axios.post('/api/medicines/' + _this2.id, formData).then(function (response) {
                             window.location.href = "/medicines";
                         }).catch(function (error) {
                             // handle error
@@ -73733,6 +73734,338 @@ if (false) {
   module.hot.accept()
   if (module.hot.data) {
     require("vue-hot-reload-api")      .rerender("data-v-30547aad", module.exports)
+  }
+}
+
+/***/ }),
+/* 243 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+function injectStyle (ssrContext) {
+  if (disposed) return
+  __webpack_require__(244)
+}
+var normalizeComponent = __webpack_require__(36)
+/* script */
+var __vue_script__ = __webpack_require__(246)
+/* template */
+var __vue_template__ = __webpack_require__(247)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = injectStyle
+/* scopeId */
+var __vue_scopeId__ = "data-v-42a42ee8"
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/Calc.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-42a42ee8", Component.options)
+  } else {
+    hotAPI.reload("data-v-42a42ee8", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 244 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(245);
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var update = __webpack_require__(75)("043f7e82", content, false, {});
+// Hot Module Replacement
+if(false) {
+ // When the styles change, update the <style> tags
+ if(!content.locals) {
+   module.hot.accept("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-42a42ee8\",\"scoped\":true,\"hasInlineConfig\":true}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./Calc.vue", function() {
+     var newContent = require("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-42a42ee8\",\"scoped\":true,\"hasInlineConfig\":true}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./Calc.vue");
+     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+     update(newContent);
+   });
+ }
+ // When the module is disposed, remove the <style> tags
+ module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 245 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(10)(false);
+// imports
+
+
+// module
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+
+// exports
+
+
+/***/ }),
+/* 246 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    name: "Calc",
+    data: function data() {
+        return {
+            number1: '',
+            number2: '',
+            result: '',
+            operations: ['*', '/', '-', '+'],
+            operation: '',
+            ajax_result: '',
+            message: ''
+        };
+    },
+
+    computed: {
+        computed_result: function computed_result() {
+            this.calculate();
+            if (this.operation == '*') {
+                return this.number1 * this.number2;
+            } else if (this.operation == '/') {
+                return this.number1 / this.number2;
+            } else if (this.operation == '-') {
+                return this.number1 - this.number2;
+            } else if (this.operation == '+') {
+                return parseInt(this.number1) + parseInt(this.number2);
+            }
+        }
+    },
+    methods: {
+        calculate: function calculate() {
+            var self = this;
+            axios.post('/api/calculate', {
+                number1: self.number1,
+                number2: self.number2,
+                operation: self.operation
+            }).then(function (r) {
+                var data = r.data;
+                console.dir(data);
+                self.ajax_result = data.result;
+                self.message = data.message;
+            });
+        }
+    }
+});
+
+/***/ }),
+/* 247 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "col-md-12" }, [
+    _c("div", { staticClass: "form-group" }, [
+      _c("p", [_vm._v(_vm._s(_vm.message))])
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "form-group" }, [
+      _c("input", {
+        directives: [
+          {
+            name: "model",
+            rawName: "v-model",
+            value: _vm.number1,
+            expression: "number1"
+          }
+        ],
+        staticClass: "form-control",
+        attrs: { type: "number", placeholder: "Число1" },
+        domProps: { value: _vm.number1 },
+        on: {
+          input: function($event) {
+            if ($event.target.composing) {
+              return
+            }
+            _vm.number1 = $event.target.value
+          }
+        }
+      })
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "form-group" }, [
+      _c(
+        "select",
+        {
+          directives: [
+            {
+              name: "model",
+              rawName: "v-model",
+              value: _vm.operation,
+              expression: "operation"
+            }
+          ],
+          staticClass: "form-control",
+          attrs: { name: "", id: "" },
+          on: {
+            change: function($event) {
+              var $$selectedVal = Array.prototype.filter
+                .call($event.target.options, function(o) {
+                  return o.selected
+                })
+                .map(function(o) {
+                  var val = "_value" in o ? o._value : o.value
+                  return val
+                })
+              _vm.operation = $event.target.multiple
+                ? $$selectedVal
+                : $$selectedVal[0]
+            }
+          }
+        },
+        _vm._l(_vm.operations, function(operation) {
+          return _c("option", { domProps: { value: operation } }, [
+            _vm._v(_vm._s(operation))
+          ])
+        })
+      )
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "form-group" }, [
+      _c("input", {
+        directives: [
+          {
+            name: "model",
+            rawName: "v-model",
+            value: _vm.number2,
+            expression: "number2"
+          }
+        ],
+        staticClass: "form-control",
+        attrs: { type: "number", placeholder: "Число2" },
+        domProps: { value: _vm.number2 },
+        on: {
+          input: function($event) {
+            if ($event.target.composing) {
+              return
+            }
+            _vm.number2 = $event.target.value
+          }
+        }
+      })
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "form-group" }, [
+      _c("p", [_vm._v("Вычисление на клиенте")]),
+      _vm._v(" "),
+      _c("input", {
+        directives: [
+          {
+            name: "model",
+            rawName: "v-model",
+            value: _vm.computed_result,
+            expression: "computed_result"
+          }
+        ],
+        staticClass: "form-control",
+        attrs: { type: "text", disabled: "", placeholder: "" },
+        domProps: { value: _vm.computed_result },
+        on: {
+          input: function($event) {
+            if ($event.target.composing) {
+              return
+            }
+            _vm.computed_result = $event.target.value
+          }
+        }
+      })
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "form-group" }, [
+      _c("p", [_vm._v("Вычисление на сервере")]),
+      _vm._v(" "),
+      _c("input", {
+        directives: [
+          {
+            name: "model",
+            rawName: "v-model",
+            value: _vm.ajax_result,
+            expression: "ajax_result"
+          }
+        ],
+        staticClass: "form-control",
+        attrs: { type: "text", disabled: "", placeholder: "" },
+        domProps: { value: _vm.ajax_result },
+        on: {
+          input: function($event) {
+            if ($event.target.composing) {
+              return
+            }
+            _vm.ajax_result = $event.target.value
+          }
+        }
+      })
+    ])
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-42a42ee8", module.exports)
   }
 }
 
