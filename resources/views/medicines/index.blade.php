@@ -30,7 +30,7 @@
                                 <tr>
                                     <td>{{ $medicine->name }}</td>
                                     <td>{{ $medicine->description }}</td>
-                                    <td><img class="img img-thumbnail" style="max-width: 30%" src="{{ $medicine->image ? $medicine->image : '' }}" alt=""></td>
+                                    <td><img class="img img-thumbnail" style="max-width: 30%" src="{{ $medicine->image ? Storage::url($medicine->image) : '' }}" alt=""></td>
                                     <td>{{ $medicine->manufacturer->name }}</td>
                                     <td>{{ $medicine->category->name }}</td>
                                     <td>

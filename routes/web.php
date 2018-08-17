@@ -7,4 +7,5 @@ Route::get('/', function () {
 
 Auth::routes();
 
+Route::post('test/medicines/{id}', 'MedicineController@update');
 Route::resource('medicines', 'MedicineController')->middleware('auth');

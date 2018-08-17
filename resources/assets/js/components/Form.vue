@@ -96,7 +96,8 @@
         },
         methods:{
             processFile(event) {
-                this.getBase64(event.target.files[0]);
+                // this.getBase64(event.target.files[0]);
+                this.image = event.target.files[0];
             },
 
             getBase64(file) {
@@ -136,49 +137,41 @@
                 this.$validator.validateAll().then((result) => {
 
                     if (!this.errors.any()) {
-                        let data = {
-                            name:this.name,
-                            description:this.description,
-                            image:this.image,
-                            category_id:this.category_id,
-                            manufacturer_id:this.manufacturer_id,
-                            id:this.id,
-                        };
-                        // let formData = new FormData();
-                        // formData.append('name', this.name);
-                        // formData.append('description', this.description);
-                        // formData.append('image', this.image);
-                        // formData.append('category_id', this.category_id);
-                        // formData.append('manufacturer_id', this.manufacturer_id);
-                        // formData.append('id', this.id);
 
-                        console.dir(data)
-                        // console.dir(data)
+                        let formData = new FormData();
+                        formData.append('name', this.name);
+                        formData.append('description', this.description);
+                        formData.append('image', this.image);
+                        formData.append('category_id', this.category_id);
+                        formData.append('manufacturer_id', this.manufacturer_id);
+                        formData.append('id', this.id);
+
                         if(this.id == ''){
                             axios.post('/medicines',
-                                data,
-                            // {headers: { 'content-type': 'multipart/form-data' }}
-                            ).catch(function (error) {
-                                    // handle error
-                                    console.log(error);
-                                    return;
-                                })
-                                .then(function (response) {
-                                    window.location.href = "/medicines";
-                                })
-
-                        }
-                        else{
-                            axios.put('/medicines/'+this.id,
-                                data,
-                            ).catch(function (error) {
+                                formData,
+                            )
+                            .then(function (response) {
+                                window.location.href = "/medicines";
+                            })
+                            .catch(function (error) {
                                 // handle error
                                 console.log(error);
                                 return;
                             })
+                        }
+                        else{
+                            axios.post('/test/medicines/'+this.id,
+                                formData,
+                            )
                             .then(function (response) {
                                 window.location.href = "/medicines";
                             })
+                            .catch(function (error) {
+                                // handle error
+                                console.log(error);
+                                return;
+                            })
+
 
                         }
                     }

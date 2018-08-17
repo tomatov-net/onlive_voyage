@@ -6,6 +6,7 @@ use App\Medicine;
 use App\MedicineCategory;
 use App\MedicineManufacturer;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class MedicineController extends Controller
 {
@@ -44,8 +45,7 @@ class MedicineController extends Controller
     {
         $all = $request->all();
         if($request->image){
-            $image = $this->saveImage($request->image);
-            $all['image'] = '/'.$image;;
+            $all['image'] = $this->saveImage($request->image);
         }
         $medicine = Medicine::create($all);
         return response()->json('ok');
@@ -64,17 +64,7 @@ class MedicineController extends Controller
 
     public function saveImage($img)
     {
-        $image = explode( ',', $img)[1];
-        $ext = '.jpg';
-        if(str_contains(explode( ',', $img)[0], 'jpeg')){
-            $ext = '.jpg';
-        }
-        elseif(str_contains(explode( ',', $img)[0], 'png')){
-            $ext = '.png';
-        }
-        $path = 'images/'.str_random().$ext;
-        file_put_contents($path, base64_decode($image));
-
+        $path = $img->store('images', 'public');
         $this->setWaterMark($path);
 
         return $path;
@@ -83,11 +73,11 @@ class MedicineController extends Controller
     public function setWaterMark($path)
     {
         // Load the stamp and the photo to apply the watermark to
-        if(str_contains($path, 'jpg')){
-            $im = imagecreatefromjpeg($path);
+        if(str_contains($path, '.jpg')){
+            $im = imagecreatefromjpeg(storage_path('app/public/'.$path));
         }
         else{
-            $im = imagecreatefrompng($path);
+            $im = imagecreatefrompng(storage_path('app/public/'.$path));
         }
 
         $image_width = imagesx($im);
@@ -100,11 +90,11 @@ class MedicineController extends Controller
 
         imagecopymerge($im, $stamp, $image_width/2, $image_height/2, 0, 0, imagesx($stamp), imagesy($stamp), 50);
 
-        if(str_contains($path, 'jpg')){
-            imagejpeg($im, $path);
+        if(str_contains($path, '.jpg')){
+            imagejpeg($im, storage_path('app/public/'.$path));
         }
         else{
-            imagepng($im, $path);
+            imagepng($im, storage_path('app/public/'.$path));
         }
 
         imagedestroy($im);
@@ -135,10 +125,8 @@ class MedicineController extends Controller
     public function update(Request $request, $id)
     {
         $data = $request->all();
-        if($request->image){
-            $path = $this->saveImage($request->image);
-
-            $data['image'] = '/'.$path;
+        if($request->image && !is_string($request->image)){
+            $data['image'] = $this->saveImage($request->image);
         }
         $medicine = Medicine::updateOrCreate(['id' => $id], $data);
         return response()->json('ok');

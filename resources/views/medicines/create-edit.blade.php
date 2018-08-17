@@ -11,7 +11,7 @@
                 </nav>
                 <v-form name_="{{ $data->name ?? '' }}"
                         description_="{{ $data->description ?? '' }}"
-                        image_="{{ $data->image ?? '' }}"
+                        image_="{{ isset($data->image) ? Storage::url($data->image) : '' }}"
                         category_id_="{{ $data->category_id ?? '' }}"
                         manufacturer_id_="{{ $data->manufacturer_id ?? '' }}"
                         id_="{{ $data->id ?? '' }}"
